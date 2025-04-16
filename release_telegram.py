@@ -37,7 +37,7 @@ for batch_num in range(total_batches):
     start_idx = batch_num * batch_size
     end_idx = start_idx + batch_size
     current_batch = file_paths[start_idx:end_idx]
-    is_first_batch = batch_num == 0
+    is_last_batch = (batch_num == total_batches - 1)
 
     media = []
     files_dict = {}
@@ -50,7 +50,7 @@ for batch_num in range(total_batches):
         files_dict[file_key] = file_handle
         file_handles.append(file_handle)
 
-    if is_first_batch and media:
+    if is_last_batch and media:
         media[-1]["caption"] = text.strip()
         media[-1]["parse_mode"] = "Markdown"
 
