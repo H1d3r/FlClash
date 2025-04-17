@@ -78,19 +78,17 @@ class _DonutChartState extends State<DonutChart>
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          return CustomPaint(
-            painter: DonutChartPainter(
-              _oldData,
-              widget.data,
-              _animationController.value,
-            ),
-          );
-        },
-      ),
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return CustomPaint(
+          painter: DonutChartPainter(
+            _oldData,
+            widget.data,
+            _animationController.value,
+          ),
+        );
+      },
     );
   }
 }

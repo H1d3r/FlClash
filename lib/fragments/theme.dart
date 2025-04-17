@@ -204,11 +204,12 @@ class _PrimaryColorItem extends ConsumerWidget {
     List<Color?> primaryColors = [
       null,
       defaultPrimaryColor,
-      Colors.pinkAccent,
       Colors.lightBlue,
-      Colors.greenAccent,
       Colors.yellowAccent,
-      Colors.purple,
+      Color(0xffbbc9cc),
+      Color(0xffabd397),
+      Color(0xffd8c0c3),
+      Color(0xff665390),
     ];
     return ItemCard(
       info: Info(
@@ -248,7 +249,14 @@ class _PrimaryColorItem extends ConsumerWidget {
                               );
                         },
                       ),
-                    )
+                    ),
+                  SizedBox(
+                    width: itemWidth,
+                    height: itemWidth,
+                    child: Icon(
+                      Icons.add,
+                    ),
+                  )
                 ],
               ),
             );
