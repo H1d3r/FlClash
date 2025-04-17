@@ -62,26 +62,28 @@ class _LineChartState extends State<LineChart>
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (_, container) {
-      return AnimatedBuilder(
-        animation: _controller.view,
-        builder: (_, __) {
-          return CustomPaint(
-            painter: LineChartPainter(
-              prevPoints: prevPoints,
-              points: points,
-              progress: _controller.value,
-              gradient: widget.gradient,
-              color: widget.color,
-            ),
-            child: SizedBox(
-              height: container.maxHeight,
-              width: container.maxWidth,
-            ),
-          );
-        },
-      );
-    });
+    return RepaintBoundary(
+      child: LayoutBuilder(builder: (_, container) {
+        return AnimatedBuilder(
+          animation: _controller.view,
+          builder: (_, __) {
+            return CustomPaint(
+              painter: LineChartPainter(
+                prevPoints: prevPoints,
+                points: points,
+                progress: _controller.value,
+                gradient: widget.gradient,
+                color: widget.color,
+              ),
+              child: SizedBox(
+                height: container.maxHeight,
+                width: container.maxWidth,
+              ),
+            );
+          },
+        );
+      }),
+    );
   }
 }
 
