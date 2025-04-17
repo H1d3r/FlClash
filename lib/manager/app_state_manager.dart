@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AppStateManager extends StatefulWidget {
@@ -69,6 +70,15 @@ class AppEnvManager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(kDebugMode){
+      if (globalState.isPre) {
+        return Banner(
+          message: 'DEBUG',
+          location: BannerLocation.topEnd,
+          child: child,
+        );
+      }
+    }
     if (globalState.isPre) {
       return Banner(
         message: 'PRE',
