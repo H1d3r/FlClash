@@ -22,7 +22,7 @@ files = {}
 i = 1
 for file in os.listdir(DIST_DIR):
     file_path = os.path.join(DIST_DIR, file)
-        if os.path.isfile(file_path) and ("windows-amd64-setup" in file.lower() or "android-arm64-v8a" in file.lower()):
+        if os.path.isfile(file_path) and ("windows-amd64-setup" in file.lower() or "android-arm64" in file.lower()):
             file_key = f"file{i}"
             media.append({
                 "type": "document",
