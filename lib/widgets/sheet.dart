@@ -127,6 +127,10 @@ class _AdaptiveSheetScaffoldState extends State<AdaptiveSheetScaffold> {
     final backgroundColor = context.colorScheme.surface;
     final bottomSheet = widget.type == SheetType.bottomSheet;
     final sideSheet = widget.type == SheetType.sideSheet;
+    print("dasaddaad ${genActions([
+      if (widget.actions.isEmpty && sideSheet) CloseButton(),
+      ...widget.actions,
+    ])}");
     final appBar = AppBar(
       forceMaterialTransparency: bottomSheet ? true : false,
       automaticallyImplyLeading: bottomSheet

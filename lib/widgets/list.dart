@@ -278,6 +278,9 @@ class ListItem<T> extends StatelessWidget {
             onBack: action,
             title: openDelegate.title,
             body: child,
+            actions: [
+              if (openDelegate.action != null) openDelegate.action!,
+            ],
           );
         },
       );
