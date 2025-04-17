@@ -8,6 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'models.dart';
 
 part 'generated/config.freezed.dart';
+
 part 'generated/config.g.dart';
 
 const defaultBypassDomain = [
@@ -37,7 +38,7 @@ const defaultProxiesStyle = ProxiesStyle();
 const defaultWindowProps = WindowProps();
 const defaultAccessControl = AccessControl();
 final defaultThemeProps = ThemeProps().copyWith(
-  primaryColor: defaultPrimaryColor.toARGB32(),
+  primaryColor: defaultPrimaryColor,
   themeMode: ThemeMode.dark,
 );
 

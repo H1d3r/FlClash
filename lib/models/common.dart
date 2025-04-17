@@ -377,13 +377,17 @@ extension ColorSchemesExt on ColorSchemes {
               brightness: Brightness.dark,
             )
           : ColorScheme.fromSeed(
-              seedColor: defaultPrimaryColor,
+              seedColor: Color(defaultPrimaryColor),
               brightness: Brightness.dark,
             );
     }
     return lightColorScheme != null
-        ? ColorScheme.fromSeed(seedColor: lightColorScheme!.primary,dynamicSchemeVariant: DynamicSchemeVariant.vibrant)
-        : ColorScheme.fromSeed(seedColor: defaultPrimaryColor);
+        ? ColorScheme.fromSeed(
+            seedColor: lightColorScheme!.primary,
+            dynamicSchemeVariant: DynamicSchemeVariant.vibrant)
+        : ColorScheme.fromSeed(
+            seedColor: Color(defaultPrimaryColor),
+          );
   }
 }
 

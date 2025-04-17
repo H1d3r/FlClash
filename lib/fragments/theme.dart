@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'dart:ui' as ui;
 
+import 'package:defer_pointer/defer_pointer.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/config.dart';
@@ -44,11 +45,13 @@ class ThemeFragment extends StatelessWidget {
 class ItemCard extends StatelessWidget {
   final Widget child;
   final Info info;
+  final List<Widget> actions;
 
   const ItemCard({
     super.key,
     required this.info,
     required this.child,
+    this.actions = const [],
   });
 
   @override
@@ -62,6 +65,7 @@ class ItemCard extends StatelessWidget {
         children: [
           InfoHeader(
             info: info,
+            actions: actions,
           ),
           child,
         ],
@@ -183,74 +187,99 @@ class _PrimaryColorItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final primaryColor =
         ref.watch(themeSettingProvider.select((state) => state.primaryColor));
-    List<Color?> primaryColors = [
-      null,
-      defaultPrimaryColor,
-      Colors.lightBlue,
-      Colors.yellowAccent,
-      Color(0xffbbc9cc),
-      Color(0xffabd397),
-      Color(0xffd8c0c3),
-      Color(0xff665390),
-    ];
-    return ItemCard(
-      info: Info(
-        label: appLocalizations.themeColor,
-        iconData: Icons.palette,
-      ),
-      child: Container(
-        margin: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: 16,
+    List<int?> primaryColors = [null, ...defaultPrimaryColors];
+    return DeferredPointerHandler(
+      child: ItemCard(
+        actions: [
+          FilledButton.tonal(
+            onPressed: () {},
+            child: Text(appLocalizations.edit),
+          ),
+        ],
+        info: Info(
+          label: appLocalizations.themeColor,
+          iconData: Icons.palette,
         ),
-        child: LayoutBuilder(
-          builder: (_, constraints) {
-            final columns = _calcColumns(constraints.maxWidth);
-            final itemWidth =
-                (constraints.maxWidth - (columns - 1) * 16) / columns;
-            return Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                for (final color in primaryColors)
-                  SizedBox(
+        child: Container(
+          margin: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: 16,
+          ),
+          child: LayoutBuilder(
+            builder: (_, constraints) {
+              final columns = _calcColumns(constraints.maxWidth);
+              final itemWidth =
+                  (constraints.maxWidth - (columns - 1) * 16) / columns;
+              return Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: [
+                  for (final color in primaryColors)
+                    Container(
+                      clipBehavior: Clip.none,
+                      width: itemWidth,
+                      height: itemWidth,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          ColorSchemeBox(
+                            isSelected: color == primaryColor,
+                            primaryColor: color != null ? Color(color) : null,
+                            onPressed: () {
+                              ref
+                                  .read(themeSettingProvider.notifier)
+                                  .updateState(
+                                    (state) => state.copyWith(
+                                      primaryColor: color,
+                                    ),
+                                  );
+                            },
+                          ),
+                          Positioned(
+                            top: -8,
+                            right: -8,
+                            child: DeferPointer(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: IconButton.filled(
+                                  iconSize: 20,
+                                  padding: EdgeInsets.all(2),
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.close,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  Container(
                     width: itemWidth,
                     height: itemWidth,
-                    child: ColorSchemeBox(
-                      isSelected: color?.toARGB32() == primaryColor,
-                      primaryColor: color,
+                    padding: EdgeInsets.all(
+                      4,
+                    ),
+                    child: IconButton.filledTonal(
                       onPressed: () {
-                        ref.read(themeSettingProvider.notifier).updateState(
-                              (state) => state.copyWith(
-                                primaryColor: color?.toARGB32(),
-                              ),
-                            );
+                        globalState.showCommonDialog(
+                          child: PaletteDialog(),
+                        );
                       },
+                      iconSize: 32,
+                      icon: Icon(
+                        color: context.colorScheme.primary,
+                        Icons.add,
+                      ),
                     ),
-                  ),
-                Container(
-                  width: itemWidth,
-                  height: itemWidth,
-                  padding: EdgeInsets.all(
-                    4,
-                  ),
-                  child: IconButton.filledTonal(
-                    onPressed: () {
-                      globalState.showCommonDialog(
-                        child: PaletteDialog(),
-                      );
-                    },
-                    iconSize: 32,
-                    icon: Icon(
-                      color: context.colorScheme.primary,
-                      Icons.add,
-                    ),
-                  ),
-                )
-              ],
-            );
-          },
+                  )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -308,11 +337,15 @@ class _PaletteDialogState extends State<PaletteDialog> {
       title: "调色盘",
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           child: Text(appLocalizations.cancel),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           child: Text(appLocalizations.confirm),
         ),
       ],
