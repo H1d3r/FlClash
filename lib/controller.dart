@@ -153,7 +153,7 @@ class AppController {
   updateLocalIp() async {
     _ref.read(localIpProvider.notifier).value = null;
     await Future.delayed(commonDuration);
-    _ref.read(localIpProvider.notifier).value = await other.getLocalIpAddress();
+    _ref.read(localIpProvider.notifier).value = await utils.getLocalIpAddress();
   }
 
   Future<void> updateProfile(Profile profile) async {
@@ -426,7 +426,7 @@ class AppController {
     if (data != null) {
       final tagName = data['tag_name'];
       final body = data['body'];
-      final submits = other.parseReleaseBody(body);
+      final submits = utils.parseReleaseBody(body);
       final textTheme = context.textTheme;
       final res = await globalState.showMessage(
         title: appLocalizations.discoverNewVersion,
@@ -671,9 +671,9 @@ class AppController {
   List<Proxy> _sortOfName(List<Proxy> proxies) {
     return List.of(proxies)
       ..sort(
-        (a, b) => other.sortByChar(
-          other.getPinyin(a.name),
-          other.getPinyin(b.name),
+        (a, b) => utils.sortByChar(
+          utils.getPinyin(a.name),
+          utils.getPinyin(b.name),
         ),
       );
   }
@@ -863,7 +863,7 @@ class AppController {
       return utf8.encode(logsRawString);
     });
     return await picker.saveFile(
-          other.logFile,
+          utils.logFile,
           Uint8List.fromList(data),
         ) !=
         null;

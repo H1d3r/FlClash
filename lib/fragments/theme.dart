@@ -1,8 +1,11 @@
 import 'dart:math';
 
+import 'dart:ui' as ui;
+
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/config.dart';
+import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,28 +37,7 @@ class ThemeFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final previewCard = Padding(
-    //   padding: const EdgeInsets.symmetric(horizontal: 16),
-    //   child: CommonCard(
-    //     onPressed: () {},
-    //     info: Info(
-    //       label: appLocalizations.preview,
-    //       iconData: Icons.looks,
-    //     ),
-    //     child: Container(
-    //       height: 200,
-    //     ),
-    //   ),
-    // );
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // previewCard,
-          const ThemeColorsBox(),
-        ],
-      ),
-    );
+    return SingleChildScrollView(child: ThemeColorsBox());
   }
 }
 
@@ -227,38 +209,46 @@ class _PrimaryColorItem extends ConsumerWidget {
             final columns = _calcColumns(constraints.maxWidth);
             final itemWidth =
                 (constraints.maxWidth - (columns - 1) * 16) / columns;
-            return SizedBox(
-              width: constraints.maxWidth,
-              height: 1000,
-              child: Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: [
-                  for (final color in primaryColors)
-                    SizedBox(
-                      width: itemWidth,
-                      height: itemWidth,
-                      child: ColorSchemeBox(
-                        isSelected: color?.toARGB32() == primaryColor,
-                        primaryColor: color,
-                        onPressed: () {
-                          ref.read(themeSettingProvider.notifier).updateState(
-                                (state) => state.copyWith(
-                                  primaryColor: color?.toARGB32(),
-                                ),
-                              );
-                        },
-                      ),
-                    ),
+            return Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                for (final color in primaryColors)
                   SizedBox(
                     width: itemWidth,
                     height: itemWidth,
-                    child: Icon(
+                    child: ColorSchemeBox(
+                      isSelected: color?.toARGB32() == primaryColor,
+                      primaryColor: color,
+                      onPressed: () {
+                        ref.read(themeSettingProvider.notifier).updateState(
+                              (state) => state.copyWith(
+                                primaryColor: color?.toARGB32(),
+                              ),
+                            );
+                      },
+                    ),
+                  ),
+                Container(
+                  width: itemWidth,
+                  height: itemWidth,
+                  padding: EdgeInsets.all(
+                    4,
+                  ),
+                  child: IconButton.filledTonal(
+                    onPressed: () {
+                      globalState.showCommonDialog(
+                        child: PaletteDialog(),
+                      );
+                    },
+                    iconSize: 32,
+                    icon: Icon(
+                      color: context.colorScheme.primary,
                       Icons.add,
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             );
           },
         ),
@@ -297,6 +287,65 @@ class _PrueBlackItem extends ConsumerWidget {
                 );
           },
         ),
+      ),
+    );
+  }
+}
+
+class PaletteDialog extends StatefulWidget {
+  const PaletteDialog({super.key});
+
+  @override
+  State<PaletteDialog> createState() => _PaletteDialogState();
+}
+
+class _PaletteDialogState extends State<PaletteDialog> {
+  final _controller = ValueNotifier<ui.Color>(Colors.red);
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonDialog(
+      title: "调色盘",
+      actions: [
+        TextButton(
+          onPressed: () {},
+          child: Text(appLocalizations.cancel),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Text(appLocalizations.confirm),
+        ),
+      ],
+      child: Column(
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          SizedBox(
+            width: 250,
+            height: 250,
+            child: Palette(
+              controller: _controller,
+            ),
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          ValueListenableBuilder(
+            valueListenable: _controller,
+            builder: (_, color, __) {
+              return PrimaryColorBox(
+                primaryColor: color,
+                child: FilledButton(
+                  onPressed: () {},
+                  child: Text(
+                    _controller.value.hex,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

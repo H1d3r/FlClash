@@ -205,7 +205,7 @@ ProfilesSelectorState profilesSelectorState(Ref ref) {
   final currentProfileId = ref.watch(currentProfileIdProvider);
   final profiles = ref.watch(profilesProvider);
   final columns = ref.watch(
-      viewWidthProvider.select((state) => other.getProfilesColumns(state)));
+      viewWidthProvider.select((state) => utils.getProfilesColumns(state)));
   return ProfilesSelectorState(
     profiles: profiles,
     currentProfileId: currentProfileId,
@@ -406,7 +406,7 @@ int getProxiesColumns(Ref ref) {
   final viewWidth = ref.watch(viewWidthProvider);
   final proxiesLayout =
       ref.watch(proxiesStyleSettingProvider.select((state) => state.layout));
-  return other.getProxiesColumns(viewWidth, proxiesLayout);
+  return utils.getProxiesColumns(viewWidth, proxiesLayout);
 }
 
 ProxyCardState _getProxyCardState(

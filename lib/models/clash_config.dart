@@ -361,7 +361,7 @@ class Rule with _$Rule {
   factory Rule.value(String value) {
     return Rule(
       value: value,
-      id: other.uuidV4,
+      id: utils.uuidV4,
     );
   }
 

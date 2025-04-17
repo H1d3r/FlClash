@@ -36,7 +36,7 @@ class MessageManagerState extends State<MessageManager> {
 
   Future<void> message(String text) async {
     final commonMessage = CommonMessage(
-      id: other.uuidV4,
+      id: utils.uuidV4,
       text: text,
     );
     _bufferMessages.add(commonMessage);

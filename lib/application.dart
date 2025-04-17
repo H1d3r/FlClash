@@ -183,7 +183,7 @@ class ApplicationState extends ConsumerState<Application> {
                   },
                   scrollBehavior: BaseScrollBehavior(),
                   title: appName,
-                  locale: other.getLocaleForString(locale),
+                  locale: utils.getLocaleForString(locale),
                   supportedLocales: AppLocalizations.delegate.supportedLocales,
                   themeMode: themeProps.themeMode,
                   theme: ThemeData(

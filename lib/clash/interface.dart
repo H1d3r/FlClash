@@ -151,7 +151,7 @@ abstract class ClashHandlerInterface with ClashInterface {
     Duration? timeout,
     FutureOr<T> Function()? onTimeout,
   }) async {
-    final id = "${method.name}#${other.id}";
+    final id = "${method.name}#${utils.id}";
 
     callbackCompleterMap[id] = Completer<T>();
 

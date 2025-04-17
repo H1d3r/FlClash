@@ -66,7 +66,7 @@ class GlobalState {
         );
     await globalState.migrateOldData(config);
     await AppLocalizations.load(
-      other.getLocaleForString(config.appSetting.locale) ??
+      utils.getLocaleForString(config.appSetting.locale) ??
           WidgetsBinding.instance.platformDispatcher.locale,
     );
   }
