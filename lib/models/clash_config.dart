@@ -431,7 +431,7 @@ class ClashConfig with _$ClashConfig {
     @Default(FindProcessMode.off)
     @JsonKey(
       name: "find-process-mode",
-      unknownEnumValue: FindProcessMode.off,
+      unknownEnumValue: FindProcessMode.always,
     )
     FindProcessMode findProcessMode,
     @Default(defaultKeepAliveInterval)

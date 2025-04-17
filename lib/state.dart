@@ -20,6 +20,7 @@ typedef UpdateTasks = List<FutureOr Function()>;
 
 class GlobalState {
   static GlobalState? _instance;
+  Map<Key, double> cacheScrollPosition = {};
   bool isService = false;
   Timer? timer;
   Timer? groupsUpdateTimer;
