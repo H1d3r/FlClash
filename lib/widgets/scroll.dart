@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/common/list.dart';
 import 'package:fl_clash/state.dart';
 import 'package:flutter/material.dart';
@@ -75,8 +76,10 @@ class _ScrollToEndBoxState<T> extends State<ScrollToEndBox<T>> {
       final double offset =
           globalState.cacheScrollPosition[widget.cacheKey] ?? -1;
       if (offset < 0) {
-        widget.controller.jumpTo(
+        widget.controller.animateTo(
+          duration: kThemeAnimationDuration,
           widget.controller.position.maxScrollExtent,
+          curve: Curves.easeOut,
         );
       }
     });
@@ -98,7 +101,7 @@ class _ScrollToEndBoxState<T> extends State<ScrollToEndBox<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<ScrollEndNotification>(
+    return NotificationListener<ScrollNotification>(
       onNotification: (details) {
         double offset =
             details.metrics.pixels == details.metrics.maxScrollExtent

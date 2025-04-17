@@ -426,7 +426,7 @@ class ClashConfig with _$ClashConfig {
     @Default(defaultMixedPort) @JsonKey(name: "mixed-port") int mixedPort,
     @Default(Mode.rule) Mode mode,
     @Default(false) @JsonKey(name: "allow-lan") bool allowLan,
-    @Default(LogLevel.info) @JsonKey(name: "log-level") LogLevel logLevel,
+    @Default(LogLevel.error) @JsonKey(name: "log-level") LogLevel logLevel,
     @Default(false) bool ipv6,
     @Default(FindProcessMode.off)
     @JsonKey(

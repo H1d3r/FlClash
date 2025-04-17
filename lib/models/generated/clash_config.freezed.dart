@@ -3200,7 +3200,7 @@ class _$ClashConfigImpl implements _ClashConfig {
       {@JsonKey(name: "mixed-port") this.mixedPort = defaultMixedPort,
       this.mode = Mode.rule,
       @JsonKey(name: "allow-lan") this.allowLan = false,
-      @JsonKey(name: "log-level") this.logLevel = LogLevel.info,
+      @JsonKey(name: "log-level") this.logLevel = LogLevel.error,
       this.ipv6 = false,
       @JsonKey(
           name: "find-process-mode", unknownEnumValue: FindProcessMode.always)
