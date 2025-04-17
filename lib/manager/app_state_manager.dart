@@ -21,7 +21,6 @@ class _AppStateManagerState extends State<AppStateManager>
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -33,10 +32,10 @@ class _AppStateManagerState extends State<AppStateManager>
 
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    commonPrint.log("AppLifecycleState $state");
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
       globalState.appController.savePreferences();
-      render?.pause();
     } else {
       render?.resume();
     }
