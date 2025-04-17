@@ -272,7 +272,7 @@ _$ClashConfigImpl _$$ClashConfigImplFromJson(Map<String, dynamic> json) =>
       ipv6: json['ipv6'] as bool? ?? false,
       findProcessMode: $enumDecodeNullable(
               _$FindProcessModeEnumMap, json['find-process-mode'],
-              unknownValue: FindProcessMode.off) ??
+              unknownValue: FindProcessMode.always) ??
           FindProcessMode.off,
       keepAliveInterval: (json['keep-alive-interval'] as num?)?.toInt() ??
           defaultKeepAliveInterval,
